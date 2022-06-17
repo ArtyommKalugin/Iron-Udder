@@ -51,30 +51,33 @@ function route($method, $urlData, $formData) {
 
         case 'login':
 
-            $email = $requestData["Email"];
+            $email = $formData["Email"];
             $password = hash("sha1", $formData["Password"]);
 
-            $user = $Link->query("SELECT id FROM users WHERE email='$email' AND password='$password'")->fetch_assoc();
-
-            if (!is_null($user)) {
-                $token = bin2hex(random_bytes(16));
-                $userID = $user["id"];
-                $validTime = time() + (10 * 60);
-                $validUntil = date('Y-m-d H:i:s', $validTime);
-
-                $userInsertResult = $Link->query("INSERT INTO tokens(value, userID, validUntil) VALUES('$token', '$userID', '$validUntil')");
-
-                if (!$userInsertResult) {
-                    setHTTPStatus("500");
-                } else {
-                    echo json_encode(["token" => $token]);
-                }
+            if ($email == NULL || $password == NULL){
+               setHTTPStatus("400","Username or password not entered");
             } else {
-                setHTTPStatus("409");
+                $user = $Link->query("SELECT id FROM users WHERE email='$email' AND password='$password'")->fetch_assoc();
+
+                if (!is_null($user)) {
+                    $token = bin2hex(random_bytes(16));
+                    $userID = $user["id"];
+                    $validTime = time() + (10 * 60);
+                    $validUntil = date('Y-m-d H:i:s', $validTime);
+
+                    $userInsertResult = $Link->query("INSERT INTO tokens(value, userID, validUntil) VALUES('$token', '$userID', '$validUntil')");
+
+                    if (!$userInsertResult) {
+                        setHTTPStatus("500");
+                    } else {
+                        echo json_encode(["token" => $token]);
+                        }
+                } else {
+                    setHTTPStatus("403","Wrong username or password");
+                    }
+          
             }
-           
             break;
-        
 
         }
     }
