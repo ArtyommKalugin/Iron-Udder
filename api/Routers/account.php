@@ -1,5 +1,6 @@
 <?php   
 include 'C:\Iron_udder\api\Classes\User.php';
+include 'C:\Iron_udder\api\helpers\check.php';
 
 function route($method, $urlData, $formData) {    
     
@@ -76,6 +77,21 @@ function route($method, $urlData, $formData) {
                     setHTTPStatus("403","Wrong username or password");
                     }
           
+            }
+            break;
+
+        case 'logout':
+           
+            $token = substr(getallheaders()["Authorization"], 7);
+
+            if (!checkPermission($token)) {
+                return;
+            }
+
+            $logoutResult = $Link->query("DELETE FROM tokens WHERE value='$token'");
+
+            if (is_null($logoutResult)) {
+                setHTTPStatus("500","Oops... Something went wrong.");
             }
             break;
 
