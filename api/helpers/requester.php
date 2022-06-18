@@ -50,4 +50,25 @@ function requestCompanyID($index) {
     }
 }
 
+function outputApplicants($index) {
+    global $Link;                
+    $vacancyUsers = $Link->query("SELECT userID FROM vacanciesusers WHERE vacancyID=$index");
+
+    $applicants = [];
+
+    while ($vacancyUserRow = $vacancyUsers->fetch_assoc()) {
+        $userID = $vacancyUserRow["userID"];
+        $userInfo = $Link->query("SELECT * FROM users WHERE id=$userID");
+
+        while ($userRow = $userInfo->fetch_assoc()) {
+            $applicant["id"] = $userRow["id"];
+            $applicant["name"] = $userRow["name"];
+            $applicant["secondName"] = $userRow["secondName"];
+            $applicant["email"] = $userRow["email"];
+        }
+        array_push($applicants, $applicant);
+    }
+    return $applicants;
+}
+
 ?>
