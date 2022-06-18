@@ -32,6 +32,20 @@ function route($method, $urlData, $formData) {
 
             case '2':
 
+            $index = (int)$urlData[1];
+            $company = requestCompany($index);
+            if (is_null($company)) {
+                setHTTPStatus("500");
+                return;
+            }
+
+            $message = [
+                "id" => $company["id"],
+                "name" => $company["name"]
+            ];
+
+            echo json_encode($message);
+
             break;
         }
 
