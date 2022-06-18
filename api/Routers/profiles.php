@@ -35,7 +35,6 @@ function route($method, $urlData, $formData) {
         case '2':
 
             $index = (int)$urlData[1];
-            print($index);
             $user = $Link->query("SELECT * FROM users WHERE id='$index'")->fetch_assoc();
 
             if (!$user) {
@@ -54,5 +53,27 @@ function route($method, $urlData, $formData) {
 
             break;
         }
+
+        break;
+
+        case "PUT":
+            
+            $name = $formData["Name"];
+            $secondName = $formData["SecondName"];
+            $thirdName = $formData["ThirdName"];
+            $email = $formData["Email"];
+            $birthDate = $formData["BirthDate"];
+
+            $index = (int)$urlList[1];
+
+            $updateUser = $Link->query("UPDATE users SET birthDate = '$birthDate', email = '$email', name = '$name', secondName = '$secondName', thirdName = '$thirdName' WHERE id = $index");
+            if (!$updateUser) {
+                echo json_encode($updateUser);
+                setHTTPStatus("404");
+            } else {
+                $message = ["message" => "OK"];
+                echo json_encode($message);
+            }
+            break;
     }
 }
