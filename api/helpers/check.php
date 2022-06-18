@@ -23,5 +23,20 @@ function checkPermission($token) {
         return false;
     }
 }
+
+function rolePermission($token, $position) {
+    global $Link;
+    
+    $userID = $Link->query("SELECT userID FROM tokens WHERE value='$token'")->fetch_assoc()["userID"];
+
+    $role = $Link->query("SELECT roleId FROM users WHERE id='$userID'")->fetch_assoc()["roleId"];
+
+    if ($role == $position) {
+        return true;
+    } else {
+        setHTTPStatus("400");
+        return false;
+    }
+}
     
 ?>
