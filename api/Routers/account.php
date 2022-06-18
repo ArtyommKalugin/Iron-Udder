@@ -55,8 +55,8 @@ function route($method, $urlData, $formData) {
             $email = $formData["Email"];
             $password = hash("sha1", $formData["Password"]);
 
-            if ($email == NULL || $password == NULL){
-               setHTTPStatus("400","Username or password not entered");
+            if ($email == NULL || $formData["Password"] == NULL){
+               setHTTPStatus("400","Email or password not entered");
             } else {
                 $user = $Link->query("SELECT id FROM users WHERE email='$email' AND password='$password'")->fetch_assoc();
 
@@ -74,7 +74,7 @@ function route($method, $urlData, $formData) {
                         echo json_encode(["token" => $token]);
                         }
                 } else {
-                    setHTTPStatus("403","Wrong username or password");
+                    setHTTPStatus("403","Wrong email or password");
                     }
           
             }

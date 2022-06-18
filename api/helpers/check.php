@@ -1,5 +1,12 @@
 <?php
 
+class UserStatus {
+    const Admin = 1;
+    const Student = 2;
+    const Company = 3;
+    const Deanery = 4;
+}
+
 function checkPermission($token) {
     global $Link;
     $dbToken = $Link->query("SELECT userID, validUntil FROM tokens WHERE value='$token'")->fetch_assoc();
