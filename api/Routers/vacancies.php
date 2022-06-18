@@ -3,6 +3,32 @@
     function route($method, $urlList, $formData) {
         global $Link;
         switch ($method) {
+            case "GET":
+                switch (count($urlList) {
+                
+                case '1': 
+
+                    $vacancies = requestVacancies();
+                    if (is_null($vacancies)) {
+                        return;
+                    }
+
+                    $message = [];
+
+                    while ($row = $vacancies->fetch_assoc()) {
+
+                        $message[] = [
+                            "id" => $row["id"],
+                            "positionID" => $row["positionID"],
+                            "companyID" => $row["companyID"]
+                        ];
+                    }
+                    echo json_encode($message);
+
+                    break;
+
+                }
+
 
             case "POST":
                 $token = substr(getallheaders()["Authorization"], 7);
