@@ -20,4 +20,14 @@ function requestCompany($index) {
     }
 }
 
+function requestCompanyID($index) {
+    global $Link;
+    $company = $Link->query("SELECT companyID FROM users WHERE id='$index'")->fetch_assoc();
+    if (is_null($company)) {
+        setHTTPStatus("500", "Не найдено");
+    } else {
+        return $company;
+    }
+}
+
 ?>
