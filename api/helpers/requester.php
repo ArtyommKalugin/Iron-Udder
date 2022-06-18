@@ -9,6 +9,16 @@ function requestVacancies() {
     }
 }
 
+function requestVacancy($index) {
+    global $Link;
+    $vacancy = $Link->query("SELECT * FROM vacancies WHERE id='$index'")->fetch_assoc();
+    if (is_null($vacancy)) {
+        setHTTPStatus("500", "Не найдено");
+    } else {
+        return $vacancy;
+    }
+}
+
 function requestUserID($token) {
     global $Link;
 
