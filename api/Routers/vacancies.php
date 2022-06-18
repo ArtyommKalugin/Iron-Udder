@@ -27,6 +27,29 @@
 
                     break;
 
+                case '2':
+
+                    $index = (int)$urlList[1];
+                    $vacancy = requestVacancy($index);
+                    if (is_null($vacancy)) {
+                        return;
+                    }
+                    
+                    $message = [];
+
+                    $applicants = outputApplicants($index);
+
+                    $message[] = [
+                        "id" => $vacancy["id"],
+                        "positionID" => $vacancy["positionID"],
+                        "companyID" => $vacancy["companyID"],
+                        "applicants" => $applicants
+                    ];
+
+                    echo json_encode($message);
+
+                    break;
+
                 }
 
 
