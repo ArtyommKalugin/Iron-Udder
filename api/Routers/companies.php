@@ -6,6 +6,38 @@ function route($method, $urlData, $formData) {
 
     switch ($method) {
 
+        case 'GET':
+
+        // api/companies
+        switch (count($urlData)) {
+            case '1':
+
+            $companies = $Link->query("SELECT * FROM companies");
+            if (!$companies) {
+                setHTTPStatus("500");
+                return;
+            } else {
+                $message = [];
+                while ($row = $companies->fetch_assoc()) {
+                    $message[] = [
+                        "id" => $row["id"],
+                        "name" => $row["name"]
+                    ];
+                }
+                echo json_encode($message);
+            }
+
+
+            break;
+
+            case '2':
+
+            break;
+        }
+
+        break;
+
+        //  api/companies
         case 'POST':
 
         $name = $formData["Name"];
