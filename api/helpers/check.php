@@ -38,5 +38,17 @@ function rolePermission($token, $position) {
         return false;
     }
 }
+
+function checkForCurrentUser($index, $token) {
+    global $Link;
+
+    $dbToken = $Link->query("SELECT userID FROM tokens WHERE value='$token'")->fetch_assoc();
+
+    if ($dbToken["userID"] == $index) {
+        return true;
+    } else {
+        return false;
+    }
+}
     
 ?>
