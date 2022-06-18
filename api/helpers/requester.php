@@ -1,4 +1,14 @@
 <?php
+function requestVacancies() {
+    global $Link;
+    $vacancies = $Link->query("SELECT * FROM vacancies");
+    if (!$vacancies) {
+        setHTTPStatus("500", "Не найдено");
+    } else {
+        return $vacancies;
+    }
+}
+
 function requestUserID($token) {
     global $Link;
 
