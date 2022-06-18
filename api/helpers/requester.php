@@ -19,6 +19,26 @@ function requestVacancy($index) {
     }
 }
 
+function requestBidsByUser($userID) {
+    global $Link;
+    $bids = $Link->query("SELECT * FROM vacanciesusers WHERE userID='$userID'");
+    if (!$bids) {
+        setHTTPStatus("500", "Не найдено");
+    } else {
+        return $bids;
+    }
+}
+
+function requestBidsByVacancy($vacancyID) {
+    global $Link;
+    $bids = $Link->query("SELECT * FROM vacanciesusers WHERE vacancyID='$vacancyID'");
+    if (!$bids) {
+        setHTTPStatus("500", "Не найдено");
+    } else {
+        return $bids;
+    }
+}
+
 function requestUserID($token) {
     global $Link;
 
