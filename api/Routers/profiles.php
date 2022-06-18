@@ -8,7 +8,7 @@ function route($method, $urlData, $formData) {
     switch ($method) {
 
         case 'GET':
-            switch (count($urlData[1]) {
+            switch (count($urlData)) {
         case '1':
 
             $users = $Link->query("SELECT * FROM users");
@@ -31,6 +31,28 @@ function route($method, $urlData, $formData) {
             }
 
             break; 
+
+        case '2':
+
+            $index = (int)$urlData[1];
+            print($index);
+            $user = $Link->query("SELECT * FROM users WHERE id='$index'")->fetch_assoc();
+
+            if (!$user) {
+                setHTTPStatus("404");
+            } else {
+                $message = [
+                    "id" => $user["id"],
+                    "name" => $user["name"],
+                    "secondName" => $user["secondName"],
+                    "thirdName" => $user["thirdName"],
+                    "email" => $user["email"],
+                    "birthDate" => $user["birthDate"]
+                ];
+                echo json_encode($message);
+            }
+
+            break;
         }
     }
 }
