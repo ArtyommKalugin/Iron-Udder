@@ -78,6 +78,29 @@
                                
                 break;
 
+            case "DELETE":
+                $token = substr(getallheaders()["Authorization"], 7);
+
+                if (!checkPermission($token)) {
+                    return;
+                }
+
+                if (!rolePermission($token, UserStatus::Company)) {
+                    setHTTPStatus("403");
+                    return;
+                }
+
+                $index = (int)$urlList[1];
+
+                $result = $Link->query("DELETE FROM vacancies WHERE id='$index'");
+                if (!$result) {
+                    setHTTPStatus("500");
+                } else {
+                    echo json_encode(["message" => "OK"]);
+                }
+
+                break;
+
             default:
                 setHTTPStatus("404");
                 return;
